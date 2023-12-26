@@ -1,0 +1,54 @@
+{
+  "type": "COFFEE_KIOSK",
+  "name": "Кофейный Киоск",
+  "description": "Небольшой кофейный киоск без сидячих мест. Быстро, удобно, вкусно.",
+  "products": {
+    "consumable": [
+      {
+        "productId": "COFFEE_BEANS",
+        "quantityPerHour": 5
+      },
+      {
+        "productId": "WATER",
+        "quantityPerHour": 10
+      },
+      {
+        "productId": "MILK",
+        "quantityPerHour": 3
+      },
+      {
+        "productId": "SUGAR",
+        "quantityPerHour": 1
+      },
+      {
+        "productId": "PAPER_CUPS",
+        "quantityPerHour": 15
+      }
+    ],
+    "producible": [
+      {
+        "productId": "COFFEE",
+        "quantityPerHour": 15
+      }
+    ]
+  },
+  "productivityGraph": [
+    { "time": "06:59", "productivity": 0.0 },
+    { "time": "07:00", "productivity": 0.7 },
+    { "time": "08:00", "productivity": 1.0 },
+    { "time": "09:00", "productivity": 0.8 },
+    { "time": "10:00", "productivity": 0.5 },
+    { "time": "11:00", "productivity": 0.3 },
+    { "time": "13:00", "productivity": 0.4 },
+    { "time": "17:00", "productivity": 0.5 },
+    { "time": "18:00", "productivity": 0.4 },
+    { "time": "19:00", "productivity": 0.3 },
+    { "time": "20:00", "productivity": 0.2 },
+    { "time": "20:59", "productivity": 0.2 },
+    { "time": "21:00", "productivity": 0.0 }
+  ],
+  "financials": {
+    "initialInvestment": 3000,
+    "operatingCosts": 100
+  }
+}
