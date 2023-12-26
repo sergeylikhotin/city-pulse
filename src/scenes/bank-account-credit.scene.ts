@@ -1,16 +1,12 @@
-import { SceneBuilder } from '../interfaces/scene-builder';
-import { Context } from '../../grammy/grammy.context';
+import { Context } from '../grammy/grammy.context';
 import { Scene } from 'grammy-scenes';
-import { CreditBankAccountCommand } from '../../bank-account/commands/credit.command';
-import { player } from '../../grammy/plugings/player';
-import { BankAccountTransaction } from '@prisma/client';
 
 export const BANK_ACCOUNT_CREDIT_SCENE = 'BANK_ACCOUNT_CREDIT_SCENE';
 
-export const BankAccountCreditSceneBuilder: SceneBuilder = () => {
+export const BankAccountCreditSceneBuilder = () => {
   const scene = new Scene<Context>(BANK_ACCOUNT_CREDIT_SCENE);
 
-  scene.step(
+  /*scene.step(
     async (ctx) => await ctx.reply('Какую сумму вы бы хотели взять в кредит?'),
   );
 
@@ -30,7 +26,7 @@ export const BankAccountCreditSceneBuilder: SceneBuilder = () => {
     await ctx.reply(`Вам выдан кредит на ${transaction.amount}`);
 
     ctx.scene.resume();
-  });
+  });*/
 
   return scene;
 };

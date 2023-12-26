@@ -1,6 +1,8 @@
-import { createSceneComposerMethodDecorator } from '../../utils/createSceneComposerMethodDecorator';
+import { createSceneComposerMethodDecorator } from '../../utils/create-scene-composer-method-decorator';
 import { SceneComposerMethodType } from '../../types/scene-composer-method-type';
-import { FilterQuery } from 'grammy';
+import { MaybeArray } from 'grammy/out/context';
 
-export const Use = (): MethodDecorator =>
-  createSceneComposerMethodDecorator(SceneComposerMethodType.Use);
+export const Hears = (trigger: MaybeArray<string | RegExp>): MethodDecorator =>
+  createSceneComposerMethodDecorator(SceneComposerMethodType.Hears, {
+    trigger,
+  });

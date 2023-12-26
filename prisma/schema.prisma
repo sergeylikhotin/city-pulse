@@ -1,6 +1,138 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+model Player {
+  id String @id @default(nanoid(10))
+
+  userId   Int    @unique
+  username String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  account    PlayerBankAccount?
+  businesses Business[]
+}
+
+model PlayerBankAccount {
+  id String @id @default(nanoid(10))
+
+  playerId String @unique
+  player   Player @relation(fields: [playerId], references: [id])
+
+  balance Decimal @default(0)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  outgoingTransactions PlayerBankAccountTransaction[] @relation("OutgoingTransaction")
+  incomingTransactions PlayerBankAccountTransaction[] @relation("IncomingTransaction")
+}
+
+model PlayerBankAccountTransaction {
+  id String @id @default(nanoid())
+
+  amount Decimal
+  type   BankAccountTransactionType
+
+  fromId String?
+  from   PlayerBankAccount? @relation("OutgoingTransaction", fields: [fromId], references: [id])
+
+  toId String?
+  to   PlayerBankAccount? @relation("IncomingTransaction", fields: [toId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model BusinessBankAccount {
+  id String @id @default(nanoid(10))
+
+  businessId String   @unique
+  business   Business @relation(fields: [businessId], references: [id])
+
+  balance Decimal @default(0)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  outgoingTransactions BusinessBankAccountTransaction[] @relation("OutgoingTransaction")
+  incomingTransactions BusinessBankAccountTransaction[] @relation("IncomingTransaction")
+}
+
+model BusinessBankAccountTransaction {
+  id String @id @default(nanoid())
+
+  amount Decimal
+  type   BankAccountTransactionType
+
+  contractId String?
+
+  fromId String?
+  from   BusinessBankAccount? @relation("OutgoingTransaction", fields: [fromId], references: [id])
+
+  toId String?
+  to   BusinessBankAccount? @relation("IncomingTransaction", fields: [toId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+enum BankAccountTransactionType {
+  DEPOSIT // Перевод средств со счёта игрока на счет бизнеса
+  WITHDRAWAL // Перевод средств со счёта бизнеса на счет игрока
+
+  TRANSFER // Перевод средств со счёта на счёт одного типа
+  PAYMENT // Платеж по контракту
+}
+
+model Business {
+  id String @id @default(nanoid())
+
+  ownerId String
+  owner   Player @relation(fields: [ownerId], references: [id])
+
+  type String
+
+  account  BusinessBankAccount?
+  products Product[]
+}
+
+model Product {
+  id String @id @default(nanoid())
+
+  type String
+
+  quantity  Decimal
+  unitPrice Decimal?
+
+  quantityPerTimeUnit Decimal
+  timeUnitType        TimeUnitType
+
+  productionType ProductProductionType
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id])
+}
+
+enum TimeUnitType {
+  HOUR
+  TWELVE_HOURS
+
+  DAY
+  THREE_DAYS
+
+  WEEK
+  TWO_WEEKS
+
+  MONTH
+}
+
+enum ProductProductionType {
+  CONSUMABLE
+  PRODUCIBLE
+}
+
 generator client {
   provider = "prisma-client-js"
 }

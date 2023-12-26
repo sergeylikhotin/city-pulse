@@ -8,15 +8,12 @@ export class GrammyTestScene {
   @Step()
   async hello(ctx: SceneFlavoredContext<Context, ScenesSessionData>) {
     await ctx.reply('Привет! Это сцена собрана целиком из декораторов!');
-    await ctx.reply('Пожалуйста, отправь команду /hello');
   }
 
-  @Wait('HELLO')
-  @Command('hello')
-  async waitHelloCommand(
+  @Step()
+  async registrationChecking(
     ctx: SceneFlavoredContext<Context, ScenesSessionData>,
   ) {
-    await ctx.reply('Лучший, все работает как надо!');
     await ctx.reply(`И так, проверим зарегистрирован ли ты...`);
 
     if (ctx.player) {

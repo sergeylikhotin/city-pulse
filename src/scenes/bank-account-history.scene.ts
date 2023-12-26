@@ -1,19 +1,14 @@
-import { SceneBuilder } from '../interfaces/scene-builder';
-import { Context } from '../../grammy/grammy.context';
+import { Context } from '../grammy/grammy.context';
 import { Scene } from 'grammy-scenes';
-import {
-  GetBankAccountTransactionsQuery,
-  GetBankAccountTransactionsQueryType,
-} from '../../bank-account/queries/get-transactions.query';
-import { BankAccountTransaction } from '@prisma/client';
-import { BankAccountTransactionFull } from '../../bank-account/types/bank-account-transaction-full';
 
 export const BANK_ACCOUNT_HISTORY_SCENE = 'BANK_ACCOUNT_HISTORY_SCENE';
 
-export const BankAccountHistorySceneBuilder: SceneBuilder = () => {
+export const BankAccountHistorySceneBuilder = () => {
   const scene = new Scene<Context>(BANK_ACCOUNT_HISTORY_SCENE);
 
-  scene.step(async (ctx) => {
+  // scene.wait('123').on('message:text', (ctx, next) => )
+
+  /*scene.step(async (ctx) => {
     const transactions = await ctx.queryBus.execute<
       GetBankAccountTransactionsQuery,
       BankAccountTransactionFull[]
@@ -32,16 +27,7 @@ export const BankAccountHistorySceneBuilder: SceneBuilder = () => {
         { parse_mode: 'HTML' },
       );
     }
-  });
+  });*/
 
   return scene;
 };
-
-/*@Scene()
-class BankAccountHistoryScene {
-
-  @Step()
-  showHistory() {
-
-  }
-}*/

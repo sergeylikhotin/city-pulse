@@ -1,0 +1,50 @@
+[
+  {
+    "type": "COFFEE",
+    "name": "Кофе",
+    "description": "Бодрящий напиток для истинных ценителей. Отличный старт вашего дня.",
+    "unit": "мл",
+    "category": "BEVERAGES",
+    "shelfLife": "3 hours"
+  },
+  {
+    "type": "COFFEE_BEANS",
+    "name": "Кофейные Зерна",
+    "description": "Заряд аромата и энергии в каждом зернышке.",
+    "unit": "кг",
+    "category": "FOOD_PRODUCTS",
+    "shelfLife": "60 days"
+  },
+  {
+    "type": "WATER",
+    "name": "Вода",
+    "description": "Основа жизни. Прозрачная, чистая, живительная.",
+    "unit": "л",
+    "category": "BEVERAGES",
+    "shelfLife": "unlimited"
+  },
+  {
+    "type": "MILK",
+    "name": "Молоко",
+    "description": "Белоснежное и питательное. Содержит лактозу.",
+    "unit": "л",
+    "category": "FOOD_PRODUCTS",
+    "shelfLife": "7 days"
+  },
+  {
+    "type": "SUGAR",
+    "name": "Сахар",
+    "description": "Просто сахар. Делает вашу жизнь немного слаще.",
+    "unit": "кг",
+    "category": "FOOD_PRODUCTS",
+    "shelfLife": "730 days"
+  },
+  {
+    "type": "PAPER_CUPS",
+    "name": "Бумажные Стаканчики",
+    "description": "Удобство в каждой детали. Эти экологичные стаканчики сохранят напитки горячими, а ваше сознание чистым.",
+    "unit": "ед",
+    "category": "PACKAGING",
+    "shelfLife": "unlimited"
+  }
+]

@@ -1,52 +1,60 @@
 {
   "type": "COFFEE_KIOSK",
   "name": "Кофейный Киоск",
-  "description": "Небольшой кофейный киоск без сидячих мест. Быстро, удобно, вкусно.",
+  "description": "Небольшой кофейный киоск без сидячих мест. Удобно, быстро, бодряще.",
   "products": {
     "consumable": [
       {
-        "productId": "COFFEE_BEANS",
-        "quantityPerHour": 5
+        "type": "COFFEE_BEANS",
+        "quantityPerTimeUnit": 0.25,
+        "timeUnitType": "HOUR"
       },
       {
-        "productId": "WATER",
-        "quantityPerHour": 10
+        "type": "WATER",
+        "quantityPerTimeUnit": 1.5,
+        "timeUnitType": "HOUR"
       },
       {
-        "productId": "MILK",
-        "quantityPerHour": 3
+        "type": "MILK",
+        "quantityPerTimeUnit": 7,
+        "timeUnitType": "HOUR"
       },
       {
-        "productId": "SUGAR",
-        "quantityPerHour": 1
+        "type": "SUGAR",
+        "quantityPerTimeUnit": 0.3,
+        "timeUnitType": "HOUR"
       },
       {
-        "productId": "PAPER_CUPS",
-        "quantityPerHour": 15
+        "type": "PAPER_CUPS",
+        "quantityPerTimeUnit": 30,
+        "timeUnitType": "HOUR"
       }
     ],
     "producible": [
       {
-        "productId": "COFFEE",
-        "quantityPerHour": 15
+        "type": "COFFEE",
+        "quantityPerTimeUnit": 30,
+        "timeUnitType": "HOUR"
       }
     ]
   },
-  "productivityGraph": [
-    { "time": "06:59", "productivity": 0.0 },
-    { "time": "07:00", "productivity": 0.7 },
-    { "time": "08:00", "productivity": 1.0 },
-    { "time": "09:00", "productivity": 0.8 },
-    { "time": "10:00", "productivity": 0.5 },
-    { "time": "11:00", "productivity": 0.3 },
-    { "time": "13:00", "productivity": 0.4 },
-    { "time": "17:00", "productivity": 0.5 },
-    { "time": "18:00", "productivity": 0.4 },
-    { "time": "19:00", "productivity": 0.3 },
-    { "time": "20:00", "productivity": 0.2 },
-    { "time": "20:59", "productivity": 0.2 },
-    { "time": "21:00", "productivity": 0.0 }
-  ],
+  "productivity": {
+    "type": "GRAPH",
+    "data": [
+      { "time": "06:00", "productivity": 0.0 },
+      { "time": "07:00", "productivity": 0.7 },
+      { "time": "08:00", "productivity": 1.0 },
+      { "time": "09:00", "productivity": 0.8 },
+      { "time": "10:00", "productivity": 0.5 },
+      { "time": "11:00", "productivity": 0.3 },
+      { "time": "13:00", "productivity": 0.4 },
+      { "time": "17:00", "productivity": 0.5 },
+      { "time": "18:00", "productivity": 0.4 },
+      { "time": "19:00", "productivity": 0.3 },
+      { "time": "20:00", "productivity": 0.2 },
+      { "time": "21:00", "productivity": 0.0 }
+    ]
+  },
   "financials": {
     "initialInvestment": 3000,
     "operatingCosts": 100

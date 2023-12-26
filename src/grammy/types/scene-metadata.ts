@@ -1,3 +1,3 @@
-export interface SceneMetadata {
+export type SceneMetadata = {
   name: string;
-}
+};

@@ -1,25 +1,16 @@
 import { Player } from '@prisma/client';
-import { Plugin } from '../types/plugin';
-import { Context, MiddlewareFn } from 'grammy';
-import { Injectable } from '@nestjs/common';
-import { PlayerService } from '../../player/player.service';
+import { PluginHost } from '../../grammy/interfaces/plugin-host';
+import { MiddlewareFn } from 'grammy';
+import { PlayerService } from '../player.service';
+import { Plugin } from "../../grammy/decorators";
+import { Context } from '../../grammy/grammy.context';
 
 export interface PlayerFlavor {
   player: Player;
 }
 
-/*export const player =
-  <C extends Context & CqrsFlavor>(): MiddlewareFn<C & PlayerFlavor> =>
-  async (ctx, next) => {
-    ctx.player = await ctx.queryBus.execute(
-      new GetPlayerByUserIdQuery(ctx.from.id),
-    );
-
-    await next();
-  };*/
-
-@Injectable()
-export class PlayerPlugin implements Plugin {
+@Plugin()
+export class PlayerPlugin implements PluginHost<Context & PlayerFlavor> {
   constructor(private readonly playerService: PlayerService) {}
 
   middleware(): MiddlewareFn<Context & PlayerFlavor> {

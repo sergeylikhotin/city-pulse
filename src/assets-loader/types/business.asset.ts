@@ -8,8 +8,8 @@ export type BusinessAsset = {
   description: string;
 
   products: {
-    consumable: BusinessProductAsset;
-    producible: BusinessProductAsset;
+    consumable: BusinessProductAsset[];
+    producible: BusinessProductAsset[];
   };
 
   productivity: BusinessAssetProductivity;
@@ -40,8 +40,8 @@ export enum BusinessAssetProductivityType {
 export type BusinessProductAsset = {
   type: string;
 
-  quantityPerUnitTime: Decimal;
-  unitTimeType: TimeUnitType;
+  quantityPerTimeUnit: Decimal;
+  timeUnitType: TimeUnitType;
 
   unitPrice?: Decimal;
 };

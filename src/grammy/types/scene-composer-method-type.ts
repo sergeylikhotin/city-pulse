@@ -1,9 +1,8 @@
-export enum SceneMethodType {
-  Label,
-  Always,
-  Step,
-  Wait,
-  Call,
-  Exit,
-  Goto,
+export enum SceneComposerMethodType {
+  Use,
+  On,
+  Hears,
+  Command,
+  ChatType,
+  CallbackQuery,
 }

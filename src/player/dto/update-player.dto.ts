@@ -1,6 +1,5 @@
 import { Player } from '@prisma/client';
 
-export class CreatePlayerDto implements Partial<Player> {
-  readonly userId: number;
+export class UpdatePlayerDto implements Partial<Player> {
   readonly username: string;
 }

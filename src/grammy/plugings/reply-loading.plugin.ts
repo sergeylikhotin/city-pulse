@@ -15,7 +15,9 @@ export interface ReplyLoadingFlavor {
 }
 
 @Plugin()
-export class ReplyLoading implements PluginHost<Context & ReplyLoadingFlavor> {
+export class ReplyLoadingPlugin
+  implements PluginHost<Context & ReplyLoadingFlavor>
+{
   middleware(): MiddlewareFn<Context & ReplyLoadingFlavor> {
     return async (ctx, next) => {
       ctx.replyLoading = (
@@ -25,24 +27,30 @@ export class ReplyLoading implements PluginHost<Context & ReplyLoadingFlavor> {
       ) => {
         let loadingMsg: MessageX;
         let loadingInterval: NodeJS.Timeout;
+
+        let deleteLoadingMessage = false;
+
         const loadingTimeout = setTimeout(async () => {
-          loadingMsg = await ctx.reply('Загрузка');
+          loadingMsg = await ctx.reply(loadingStates[0]);
 
           let stateIndex = 0;
           const updateLoadingMessage = async () => {
+            if (deleteLoadingMessage) {
+              await loadingMsg.delete();
+              return clearInterval(loadingInterval);
+            }
+
             stateIndex = (stateIndex + 1) % loadingStates.length;
             await loadingMsg.editText(loadingStates[stateIndex]);
           };
 
           loadingInterval = setInterval(updateLoadingMessage, intervalMs);
         }, delayMs);
-        return async () => {
-          clearTimeout(loadingTimeout);
-          clearInterval(loadingInterval);
 
-          if (loadingMsg != null) {
-            await loadingMsg.delete();
-          }
+        return async () => {
+          deleteLoadingMessage = true;
+
+          clearTimeout(loadingTimeout);
         };
       };
 

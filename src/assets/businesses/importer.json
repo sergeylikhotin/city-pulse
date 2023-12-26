@@ -1,0 +1,45 @@
+{
+  "type": "IMPORTER",
+  "name": "Импортер",
+  "description": "Крупнейший импортер в стране. От кофейных зерен до космических кораблей.",
+  "products": {
+    "consumable": [],
+    "producible": [
+      {
+        "type": "COFFEE_BEANS",
+        "quantityPerTimeUnit": 150,
+        "timeUnitType": "DAY",
+        "unitPrice": 1
+      },
+      {
+        "type": "WATER",
+        "quantityPerTimeUnit": 1500,
+        "timeUnitType": "DAY",
+        "unitPrice": 1
+      },
+      {
+        "type": "MILK",
+        "quantityPerTimeUnit": 1500,
+        "timeUnitType": "DAY",
+        "unitPrice": 1
+      },
+      {
+        "type": "SUGAR",
+        "quantityPerTimeUnit": 150,
+        "timeUnitType": "DAY",
+        "unitPrice": 1
+      },
+      {
+        "type": "PAPER_CUPS",
+        "quantityPerTimeUnit": 1500,
+        "timeUnitType": "DAY",
+        "unitPrice": 1
+      }
+    ]
+  },
+  "productivity": {
+    "type": "CONSTANT",
+    "data": 1
+  },
+  "system": true
+}

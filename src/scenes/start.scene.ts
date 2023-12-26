@@ -1,17 +1,12 @@
-import { SceneBuilder } from '../interfaces/scene-builder';
-import { Context } from '../../grammy/grammy.context';
+import { Context } from '../grammy/grammy.context';
 import { Scene } from 'grammy-scenes';
-import { CreatePlayerCommand } from '../../player/commands/create.command';
-import { BankAccount, Player } from '@prisma/client';
-import { replyLoadingMessage } from '../../utils/replyLoadingMessage';
-import { CreateBankAccountCommand } from '../../bank-account/commands/create.command';
 
 export const START_SCENE = 'START_SCENE';
 
-export const StartSceneBuilder: SceneBuilder = () => {
+export const StartSceneBuilder = () => {
   const scene = new Scene<Context>(START_SCENE);
 
-  scene.step(async (ctx) => {
+  /*scene.step(async (ctx) => {
     if (ctx.player != null) {
       await ctx.reply(
         `Привет, ${ctx.player.username}.\r\nТвой аккаунт создан: ${ctx.player.createdAt}.`,
@@ -42,7 +37,7 @@ export const StartSceneBuilder: SceneBuilder = () => {
       );
     }
 
-    const stopLoading = await replyLoadingMessage(ctx);
+    const loaded = ctx.replyLoading();
 
     const { id: userId } = ctx.from;
     const player = await ctx.commandBus.execute<CreatePlayerCommand, Player>(
@@ -56,7 +51,7 @@ export const StartSceneBuilder: SceneBuilder = () => {
       BankAccount
     >(new CreateBankAccountCommand(player.id));
 
-    await stopLoading();
+    await loaded();
 
     await ctx.reply(`Банковский счёт открыт!`);
     await ctx.reply(
@@ -70,7 +65,7 @@ export const StartSceneBuilder: SceneBuilder = () => {
     );
 
     ctx.scene.resume();
-  });
+  });*/
 
   return scene;
 };

@@ -1,4 +1,6 @@
 import { SceneMethodType } from './scene-method-type';
-import { MethodMetadata } from './method-metadata';
 
-export type SceneMethodMetadata = MethodMetadata<SceneMethodType>;
+export type SceneMethodsMetadata = {
+  readonly type: SceneMethodType;
+  readonly args: Record<string, any>;
+}[];
