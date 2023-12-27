@@ -19,12 +19,13 @@ export class PlayerBusinessesScene {
 
     for (const business of businesses) {
       await ctx.reply(
-        `${business.asset.name}:\r\n${business.products
+        `<b>${business.asset.name}</b>:\r\n${business.products
           .map(
             (product) =>
               `${product.asset.name}: ${product.quantity} ${product.asset.unit}.`,
           )
           .join('\r\n')}`,
+        { parse_mode: 'HTML' },
       );
     }
   }

@@ -10,6 +10,7 @@ import { BusinessModule } from './business/business.module';
 import { ProductModule } from './product/product.module';
 import { AssetsLoaderModule } from './assets-loader/assets-loader.module';
 import { BusinessManagementModule } from './business-management/business-management.module';
+import { BusinessProductionModule } from './business-production/business-production.module';
 
 @Module({
   imports: [
@@ -38,6 +39,8 @@ import { BusinessManagementModule } from './business-management/business-managem
     AssetsLoaderModule,
 
     BusinessManagementModule,
+
+    BusinessProductionModule,
   ],
   providers: [AppService],
 })

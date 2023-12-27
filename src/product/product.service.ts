@@ -23,7 +23,7 @@ export class ProductService {
 
       type: asset.type,
 
-      quantity: 0,
+      quantity: asset.initialQuantity ?? 0,
 
       quantityPerTimeUnit: asset.quantityPerTimeUnit,
       timeUnitType: asset.timeUnitType,

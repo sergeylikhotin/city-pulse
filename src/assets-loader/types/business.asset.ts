@@ -43,5 +43,7 @@ export type BusinessProductAsset = {
   quantityPerTimeUnit: Decimal;
   timeUnitType: TimeUnitType;
 
+  initialQuantity?: Decimal;
+
   unitPrice?: Decimal;
 };

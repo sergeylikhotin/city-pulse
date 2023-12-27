@@ -8,7 +8,7 @@ model Player {
   username String
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  // updatedAt DateTime @updatedAt
 
   account    PlayerBankAccount?
   businesses Business[]
@@ -18,9 +18,9 @@ model PlayerBankAccount {
   id String @id @default(nanoid(10))
 
   playerId String @unique
-  player   Player @relation(fields: [playerId], references: [id])
+  player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
 
-  balance Decimal @default(0)
+  balance Decimal @default(0) @db.Money
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -33,14 +33,14 @@ model PlayerBankAccount {
 model PlayerBankAccountTransaction {
   id String @id @default(nanoid())
 
-  amount Decimal
+  amount Decimal                    @db.Money
   type   BankAccountTransactionType
 
   fromId String?
-  from   PlayerBankAccount? @relation("OutgoingTransaction", fields: [fromId], references: [id])
+  from   PlayerBankAccount? @relation("OutgoingTransaction", fields: [fromId], references: [id], onDelete: NoAction)
 
   toId String?
-  to   PlayerBankAccount? @relation("IncomingTransaction", fields: [toId], references: [id])
+  to   PlayerBankAccount? @relation("IncomingTransaction", fields: [toId], references: [id], onDelete: NoAction)
 
   createdAt DateTime @default(now())
 }
@@ -49,9 +49,9 @@ model BusinessBankAccount {
   id String @id @default(nanoid(10))
 
   businessId String   @unique
-  business   Business @relation(fields: [businessId], references: [id])
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
 
-  balance Decimal @default(0)
+  balance Decimal @default(0) @db.Money
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -64,16 +64,16 @@ model BusinessBankAccount {
 model BusinessBankAccountTransaction {
   id String @id @default(nanoid())
 
-  amount Decimal
+  amount Decimal                    @db.Money
   type   BankAccountTransactionType
 
   contractId String?
 
   fromId String?
-  from   BusinessBankAccount? @relation("OutgoingTransaction", fields: [fromId], references: [id])
+  from   BusinessBankAccount? @relation("OutgoingTransaction", fields: [fromId], references: [id], onDelete: NoAction)
 
   toId String?
-  to   BusinessBankAccount? @relation("IncomingTransaction", fields: [toId], references: [id])
+  to   BusinessBankAccount? @relation("IncomingTransaction", fields: [toId], references: [id], onDelete: NoAction)
 
   createdAt DateTime @default(now())
 }
@@ -90,7 +90,7 @@ model Business {
   id String @id @default(nanoid())
 
   ownerId String
-  owner   Player @relation(fields: [ownerId], references: [id])
+  owner   Player @relation(fields: [ownerId], references: [id], onDelete: NoAction)
 
   type String
 
@@ -104,15 +104,20 @@ model Product {
   type String
 
   quantity  Decimal
-  unitPrice Decimal?
+  unitPrice Decimal? @db.Money
 
   quantityPerTimeUnit Decimal
   timeUnitType        TimeUnitType
 
   productionType ProductProductionType
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  calculatedAt DateTime @default(now())
+
   businessId String
-  business   Business @relation(fields: [businessId], references: [id])
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
 }
 
 enum TimeUnitType {

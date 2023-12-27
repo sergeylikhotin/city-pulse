@@ -7,27 +7,37 @@
       {
         "type": "COFFEE_BEANS",
         "quantityPerTimeUnit": 0.25,
-        "timeUnitType": "HOUR"
+        "timeUnitType": "HOUR",
+
+        "initialQuantity": 180
       },
       {
         "type": "WATER",
         "quantityPerTimeUnit": 1.5,
-        "timeUnitType": "HOUR"
+        "timeUnitType": "HOUR",
+
+        "initialQuantity": 1080
       },
       {
         "type": "MILK",
         "quantityPerTimeUnit": 7,
-        "timeUnitType": "HOUR"
+        "timeUnitType": "HOUR",
+
+        "initialQuantity": 5040
       },
       {
         "type": "SUGAR",
         "quantityPerTimeUnit": 0.3,
-        "timeUnitType": "HOUR"
+        "timeUnitType": "HOUR",
+
+        "initialQuantity": 216
       },
       {
         "type": "PAPER_CUPS",
         "quantityPerTimeUnit": 30,
-        "timeUnitType": "HOUR"
+        "timeUnitType": "HOUR",
+
+        "initialQuantity": 21600
       }
     ],
     "producible": [

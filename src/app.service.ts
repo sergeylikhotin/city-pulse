@@ -3,10 +3,14 @@ import { GrammyService } from './grammy/grammy.service';
 import { GrammyTestScene } from './grammy/grammy.test.scene';
 import { DebugCreateBusinessScene } from './business-management/scenes/debug-create-business.scene';
 import { PlayerBusinessesScene } from './business-management/scenes/player-businesses.scene';
+import { PrismaService } from './prisma/prisma.service';
 
 @Injectable()
 export class AppService implements OnModuleInit {
-  constructor(private readonly bot: GrammyService) {}
+  constructor(
+    private readonly bot: GrammyService,
+    private readonly prisma: PrismaService,
+  ) {}
 
   async onModuleInit() {
     /*
@@ -52,6 +56,24 @@ export class AppService implements OnModuleInit {
 
     this.bot.command('start', async (ctx) => {
       await ctx.scenes.enter(GrammyTestScene.name);
+      /*console.time('businesses');
+      const businesses = await this.prisma.business.findMany({
+        include: {
+          // owner: true,
+          products: true,
+        },
+      });
+      console.timeEnd('businesses');
+
+      await ctx.reply(
+        `<pre language="JSON">${businesses.reduce(
+          (acc, b) => acc + b.products.length,
+          0,
+        )}</pre>`,
+        {
+          parse_mode: 'HTML',
+        },
+      );*/
     });
 
     this.bot.command('debug_create_business', async (ctx) => {
