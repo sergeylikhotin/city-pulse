@@ -7,12 +7,6 @@ import {
   ProductProductionType,
   TimeUnitType,
 } from '@prisma/client';
-import {
-  differenceInDays,
-  differenceInHours,
-  differenceInMonths,
-  differenceInWeeks,
-} from 'date-fns';
 import { chunk } from 'lodash';
 
 @Injectable()
@@ -20,7 +14,7 @@ export class BusinessProductionService {
   constructor(private readonly prisma: PrismaService) {}
 
   async onModuleInit() {
-    // await this.production();
+    await this.production();
   }
 
   @Cron(CronExpression.EVERY_30_SECONDS)
@@ -29,6 +23,7 @@ export class BusinessProductionService {
     const businesses = await this.prisma.business.findMany({
       include: { products: true },
     });
+    // const products = await this.prisma.product.findMany();
 
     const chunks = chunk(businesses, 250);
 
@@ -49,7 +44,23 @@ export class BusinessProductionService {
     businesses: (Business & { products: Product[] })[],
   ) {
     // console.time('product calculation and saving');
-    const recalculateBusinessesPromises = businesses.map((business) =>
+    const recalculateBusinessesPromises = businesses
+      .map((business) =>
+        business.products.map((product) =>
+          this.prisma.product.update({
+            data: {
+              calculatedAt: currentDate,
+              quantity: {
+                increment: this.calculateQuantityChange(product, currentDate),
+              },
+            },
+            where: { id: product.id },
+          }),
+        ),
+      )
+      .flat();
+
+    /*const recalculateBusinessesPromises = businesses.map((business) =>
       this.prisma.business.update({
         data: {
           products: {
@@ -66,7 +77,7 @@ export class BusinessProductionService {
         },
         where: { id: business.id },
       }),
-    );
+    );*/
 
     const recalculatedBusinesses = await this.prisma.$transaction(
       recalculateBusinessesPromises,

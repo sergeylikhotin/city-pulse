@@ -12,9 +12,11 @@ export class PrismaService
   implements OnApplicationBootstrap, OnApplicationShutdown
 {
   constructor() {
-    super();
+    super({
+      log: ['query'],
+    });
 
-    return Object.assign(
+    /*return Object.assign(
       this,
       this.$extends({
         query: {
@@ -30,7 +32,7 @@ export class PrismaService
           },
         },
       }),
-    );
+    );*/
   }
   onApplicationBootstrap() {
     this.$connect();
