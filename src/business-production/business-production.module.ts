@@ -5,7 +5,7 @@ import { ProductModule } from '../product/product.module';
 import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
-  imports: [ScheduleModule, BusinessModule, ProductModule],
+  imports: [ScheduleModule.forRoot(), BusinessModule, ProductModule],
   providers: [BusinessProductionService],
 })
 export class BusinessProductionModule {}

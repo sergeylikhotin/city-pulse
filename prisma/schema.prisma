@@ -103,10 +103,10 @@ model Product {
 
   type String
 
-  quantity  Decimal
+  quantity  Float
   unitPrice Decimal? @db.Money
 
-  quantityPerTimeUnit Decimal
+  quantityPerTimeUnit Float
   timeUnitType        TimeUnitType
 
   productionType ProductProductionType
@@ -118,6 +118,8 @@ model Product {
 
   businessId String
   business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([id, businessId])
 }
 
 enum TimeUnitType {

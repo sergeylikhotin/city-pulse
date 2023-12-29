@@ -1,4 +1,4 @@
-import { Command, Label, On, Scene, Step, Wait } from "../../grammy/decorators";
+import { Command, Label, On, Scene, Step, Wait } from '../../grammy/decorators';
 import { SceneFlavoredContext } from 'grammy-scenes';
 import { Context } from '../../grammy/grammy.context';
 import { BusinessManagementService } from '../business-management.service';
@@ -38,24 +38,29 @@ export class DebugCreateBusinessScene {
 
     const created = ctx.replyLoading();
 
-    let business: Business;
+    const businesses: Business[] = [];
     try {
-      business = await this.businessManagementService.debugCreateBusiness(
-        ctx.player.id,
-        asset.type,
-      );
+      for (let i = 0; i < 1000; i++) {
+        businesses.push(
+          await this.businessManagementService.debugCreateBusiness(
+            ctx.player.id,
+            asset.type,
+          ),
+        );
+      }
     } finally {
       await created();
     }
 
-    ctx.scene.next_arg = business;
+    ctx.scene.next_arg = businesses;
     ctx.scene.resume();
   }
 
   @Step()
   async businessCreated(ctx: SceneFlavoredContext<Context, unknown>) {
-    const business: Business = ctx.scene.arg;
+    const businesses: Business[] = ctx.scene.arg;
 
-    await ctx.reply(`Бизнес создан! Идентификатор: ${business.id}`);
+    await ctx.reply(`Создано ${businesses.length} бизнесов!`);
+    // await ctx.reply(`Бизнес создан! Идентификаторы: ${business.id}`);
   }
 }
