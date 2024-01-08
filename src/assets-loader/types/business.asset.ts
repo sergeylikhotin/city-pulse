@@ -40,8 +40,10 @@ export enum BusinessAssetProductivityType {
 export type BusinessProductAsset = {
   type: string;
 
-  quantityPerTimeUnit: Decimal;
+  quantityPerTimeUnit: number;
   timeUnitType: TimeUnitType;
+
+  initialQuantity?: number;
 
   unitPrice?: Decimal;
 };

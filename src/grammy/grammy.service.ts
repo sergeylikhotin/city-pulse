@@ -48,7 +48,7 @@ export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
         return await botError.ctx.reply(botError.error.message);
       }
 
-      this.logger.error(botError.error);
+      this.logger.error(botError.error, botError.stack);
 
       await botError.ctx.reply(
         `Произошла ошибка... Мы уже получили сообщение об ошибке и работаем над этим.`,

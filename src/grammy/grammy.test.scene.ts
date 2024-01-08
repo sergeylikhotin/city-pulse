@@ -1,7 +1,7 @@
 import { Context } from './grammy.context';
-import { Call, Command, Exit, Label, Scene, Step, Wait } from "./decorators";
+import { Call, Command, Exit, Label, Scene, Step, Wait } from './decorators';
 import { SceneFlavoredContext, ScenesSessionData } from 'grammy-scenes';
-import { PlayerRegistrationScene } from '../player-management/scenes/player-registration.scene';
+import { PlayerRegistrationScene } from "../managment-modules/player-management/scenes/player-registration.scene";
 
 @Scene()
 export class GrammyTestScene {
