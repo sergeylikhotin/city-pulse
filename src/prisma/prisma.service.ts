@@ -13,7 +13,7 @@ export class PrismaService
 {
   constructor() {
     super({
-      log: ['query'],
+      // log: ['query'],
     });
 
     /*return Object.assign(

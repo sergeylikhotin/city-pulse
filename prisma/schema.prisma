@@ -7,11 +7,14 @@ model Player {
   userId   Int    @unique
   username String
 
-  createdAt DateTime @default(now())
-  // updatedAt DateTime @updatedAt
-
   account    PlayerBankAccount?
   businesses Business[]
+
+  // marketOffers MarketOffer[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
 }
 
 model PlayerBankAccount {
@@ -22,12 +25,12 @@ model PlayerBankAccount {
 
   balance Decimal @default(0) @db.Money
 
+  outgoingTransactions PlayerBankAccountTransaction[] @relation("OutgoingTransaction")
+  incomingTransactions PlayerBankAccountTransaction[] @relation("IncomingTransaction")
+
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
-
-  outgoingTransactions PlayerBankAccountTransaction[] @relation("OutgoingTransaction")
-  incomingTransactions PlayerBankAccountTransaction[] @relation("IncomingTransaction")
 }
 
 model PlayerBankAccountTransaction {
@@ -53,12 +56,12 @@ model BusinessBankAccount {
 
   balance Decimal @default(0) @db.Money
 
+  outgoingTransactions BusinessBankAccountTransaction[] @relation("OutgoingTransaction")
+  incomingTransactions BusinessBankAccountTransaction[] @relation("IncomingTransaction")
+
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
-
-  outgoingTransactions BusinessBankAccountTransaction[] @relation("OutgoingTransaction")
-  incomingTransactions BusinessBankAccountTransaction[] @relation("IncomingTransaction")
 }
 
 model BusinessBankAccountTransaction {
@@ -94,8 +97,21 @@ model Business {
 
   type String
 
-  account  BusinessBankAccount?
-  products Product[]
+  account      BusinessBankAccount?
+  products     Product[]
+  marketOffers MarketOffer[]
+
+  sellerChats ContractChat[] @relation("ContractChatSeller")
+  buyerChats  ContractChat[] @relation("ContractChatBuyer")
+  closerChat  ContractChat[] @relation("ContractChatCloser")
+
+  chatMessages ContractChatMessage[]
+
+  sellerContracts Contract[] @relation("ContractSeller")
+  buyerContracts  Contract[] @relation("ContractBuyer")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Product {
@@ -111,13 +127,15 @@ model Product {
 
   productionType ProductProductionType
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
   calculatedAt DateTime @default(now())
 
   businessId String
   business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  offers MarketOffer[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([id, businessId])
 }
@@ -138,6 +156,149 @@ enum TimeUnitType {
 enum ProductProductionType {
   CONSUMABLE
   PRODUCIBLE
+}
+
+model MarketOffer {
+  id String @id @default(nanoid())
+
+  quantity Float
+
+  pricePerUnit Decimal
+  offerType    MarketOfferType
+
+  status MarketOfferStatus
+
+  sellerId String
+  seller   Business @relation(fields: [sellerId], references: [id])
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  contracts      Contract[]
+  contractsChats ContractChat[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+enum MarketOfferType {
+  ONE_TIME
+  PERIODIC
+}
+
+enum MarketOfferStatus {
+  OPEN
+  CLOSED
+
+  HIDDEN
+}
+
+model Contract {
+  id String @id @default(nanoid())
+
+  termsId String        @unique
+  terms   ContractTerms @relation(fields: [termsId], references: [id])
+
+  totalCost      Decimal
+  deliveriesLeft Int
+
+  status ContractStatus @default(ACTIVE)
+
+  offerId String
+  offer   MarketOffer @relation(fields: [offerId], references: [id])
+
+  sellerId String
+  seller   Business @relation(name: "ContractSeller", fields: [sellerId], references: [id])
+
+  buyerId String
+  buyer   Business @relation(name: "ContractBuyer", fields: [buyerId], references: [id])
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  completedAt DateTime?
+}
+
+enum ContractStatus {
+  ACTIVE
+  COMPLETED
+  CANCELED
+}
+
+model ContractTerms {
+  id String @id @default(nanoid())
+
+  quantity     Float
+  pricePerUnit Decimal
+
+  deliveryFrequency DeliveryFrequency
+  deliveryTimeSlot  String
+
+  deliveriesCount Int
+
+  contract Contract?
+  chat     ContractChat?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum DeliveryFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+model ContractChat {
+  id String @id @default(nanoid())
+
+  status ContractChatStatus @default(OPEN)
+
+  sellerAcceptTerms Boolean @default(false)
+  buyerAcceptTerms  Boolean @default(false)
+
+  termsId String?        @unique
+  terms   ContractTerms? @relation(fields: [termsId], references: [id])
+
+  offerId String
+  offer   MarketOffer @relation(fields: [offerId], references: [id])
+
+  sellerId String
+  seller   Business @relation("ContractChatSeller", fields: [sellerId], references: [id])
+
+  buyerId String
+  buyer   Business @relation("ContractChatBuyer", fields: [buyerId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  closedAt  DateTime?
+
+  closerId String?
+  closer   Business? @relation("ContractChatCloser", fields: [closerId], references: [id])
+
+  messages ContractChatMessage[]
+}
+
+enum ContractChatStatus {
+  OPEN
+  CLOSED
+}
+
+model ContractChatMessage {
+  id String @id @default(nanoid())
+
+  body String?
+
+  termsUpdated  Boolean @default(false)
+  termsAccepted Boolean @default(false)
+
+  timestamp DateTime @default(now())
+
+  chatId String
+  chat   ContractChat @relation(fields: [chatId], references: [id])
+
+  senderId String
+  sender   Business @relation(fields: [senderId], references: [id])
 }
 
 generator client {

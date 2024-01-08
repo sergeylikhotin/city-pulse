@@ -2,15 +2,25 @@ import { Module } from '@nestjs/common';
 import { AppService } from './app.service';
 import { GrammyModule } from './grammy/grammy.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PlayerModule } from './player/player.module';
 import { PrismaModule } from './prisma/prisma.module';
-import { PlayerManagementModule } from './player-management/player-management.module';
-import { BankingModule } from './banking/banking.module';
-import { BusinessModule } from './business/business.module';
-import { ProductModule } from './product/product.module';
 import { AssetsLoaderModule } from './assets-loader/assets-loader.module';
-import { BusinessManagementModule } from './business-management/business-management.module';
-import { BusinessProductionModule } from './business-production/business-production.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { PlayerModule } from './data-modules/player/player.module';
+import { BankingModule } from './data-modules/banking/banking.module';
+import { BusinessModule } from './data-modules/business/business.module';
+import { ProductModule } from './data-modules/product/product.module';
+import { PlayerManagementModule } from './managment-modules/player-management/player-management.module';
+import { BusinessManagementModule } from './managment-modules/business-management/business-management.module';
+import { BusinessProductionModule } from './schedule/business-production/business-production.module';
+import { MarketModule } from './data-modules/market/market.module';
+import { MarketManagementModule } from './managment-modules/market-management/market-management.module';
+import { ContractModule } from './data-modules/contract/contract.module';
+import { ContractChatModule } from './data-modules/contract-chat/contract-chat.module';
+import { ContractChatManagementModule } from './managment-modules/contract-chat-management/contract-chat-management.module';
+import { ContractTermsModule } from './data-modules/contract-terms/contract-terms.module';
+import { ContractTermsManagementModule } from './managment-modules/contract-terms-management/contract-terms-management.module';
+import { WelcomeModule } from './scene-modules/welcome/welcome.module';
+import { MainModule } from './scene-modules/main/main.module';
 
 @Module({
   imports: [
@@ -28,19 +38,33 @@ import { BusinessProductionModule } from './business-production/business-product
       }),
       inject: [ConfigService],
     }),
-
-    PlayerModule,
-    BankingModule,
-    BusinessModule,
-    ProductModule,
-
-    PlayerManagementModule,
+    EventEmitterModule.forRoot({
+      global: true,
+      wildcard: true,
+      verboseMemoryLeak: true,
+    }),
 
     AssetsLoaderModule,
 
-    BusinessManagementModule,
+    PlayerModule,
+    BankingModule,
 
+    BusinessModule,
+    ProductModule,
+
+    MarketModule,
+    ContractModule,
+    ContractTermsModule,
+    ContractChatModule,
+
+    PlayerManagementModule,
+    BusinessManagementModule,
     BusinessProductionModule,
+    MarketManagementModule,
+    ContractTermsManagementModule,
+    ContractChatManagementModule,
+    WelcomeModule,
+    MainModule,
   ],
   providers: [AppService],
 })
