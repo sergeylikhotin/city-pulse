@@ -1,17 +1,18 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { GrammyService } from './grammy/grammy.service';
-import { GrammyTestScene } from './grammy/grammy.test.scene';
+import { Injectable, OnModuleInit } from "@nestjs/common";
+import { GrammyService } from "./infrastructure/grammy/grammy.service";
 
-import { PrismaService } from './prisma/prisma.service';
-import { DebugCreateBusinessScene } from './managment-modules/business-management/scenes/debug-create-business.scene';
-import { PlayerBusinessesScene } from './managment-modules/business-management/scenes/player-businesses.scene';
+import { PrismaService } from "./infrastructure/prisma/prisma.service";
+import { DebugCreateBusinessScene } from "./domain/managment/business-management/scenes/debug-create-business.scene";
+import { PlayerBusinessesScene } from "./domain/managment/business-management/scenes/player-businesses.scene";
+import { MainScene } from "./scenes/main.scene";
 
 @Injectable()
 export class AppService implements OnModuleInit {
   constructor(
     private readonly bot: GrammyService,
-    private readonly prisma: PrismaService,
-  ) {}
+    private readonly prisma: PrismaService
+  ) {
+  }
 
   async onModuleInit() {
     /*
@@ -47,16 +48,16 @@ export class AppService implements OnModuleInit {
     });*/
 
     await this.bot.api.setMyCommands([
-      { command: 'start', description: 'Проверить регистрацию' },
+      { command: "start", description: "Проверить регистрацию" },
       {
-        command: 'debug_create_business',
-        description: 'Добавить тестовый бизнес',
+        command: "debug_create_business",
+        description: "Добавить тестовый бизнес"
       },
-      { command: 'businesses', description: 'Список бизнесов' },
+      { command: "businesses", description: "Список бизнесов" }
     ]);
 
-    this.bot.command('start', async (ctx) => {
-      await ctx.scenes.enter(GrammyTestScene.name);
+    this.bot.command("start", async (ctx) => {
+      await ctx.scenes.enter(MainScene.name);
       /*console.time('businesses');
       const businesses = await this.prisma.business.findMany({
         include: {
@@ -77,11 +78,11 @@ export class AppService implements OnModuleInit {
       );*/
     });
 
-    this.bot.command('debug_create_business', async (ctx) => {
+    this.bot.command("debug_create_business", async (ctx) => {
       await ctx.scenes.enter(DebugCreateBusinessScene.name);
     });
 
-    this.bot.command('businesses', async (ctx) => {
+    this.bot.command("businesses", async (ctx) => {
       await ctx.scenes.enter(PlayerBusinessesScene.name);
     });
 
