@@ -1,11 +1,11 @@
-import { Context } from "../infrastructure/grammy/grammy.context";
-import { Scene } from "grammy-scenes";
-import { MessageX } from "@grammyjs/hydrate/out/data/message";
+import { Context } from '../infrastructure/grammy/grammy.context';
+import { Scene } from 'grammy-scenes';
+import { MessageX } from '@grammyjs/hydrate/out/data/message';
 
-export const BANK_ACCOUNT_SCENE = "BANK_ACCOUNT_SCENE";
+export const BANK_ACCOUNT_SCENE = 'BANK_ACCOUNT_SCENE';
 export const BankAccountSceneBuilder = () => {
   const scene = new Scene<Context, { menuMessage: MessageX }>(
-    BANK_ACCOUNT_SCENE
+    BANK_ACCOUNT_SCENE,
   );
 
   /*scene.step(async (ctx) => await ctx.reply('Твой банковский аккаунт:'));

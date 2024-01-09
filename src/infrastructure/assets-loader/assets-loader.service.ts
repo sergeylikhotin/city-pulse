@@ -1,9 +1,9 @@
-import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
-import { ProductAsset } from "./types/product.asset";
-import { readdir, readFile } from "fs/promises";
-import { join } from "path";
-import { cwd } from "process";
-import { BusinessAsset } from "./types/business.asset";
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { ProductAsset } from './types/product.asset';
+import { readdir, readFile } from 'fs/promises';
+import { join } from 'path';
+import { cwd } from 'process';
+import { BusinessAsset } from './types/business.asset';
 
 @Injectable()
 export class AssetsLoaderService implements OnModuleInit {
@@ -15,12 +15,12 @@ export class AssetsLoaderService implements OnModuleInit {
   async onModuleInit() {
     const productAssets = await this.loadProductsAssets();
     this.productAssets = new Map(
-      productAssets.map((asset) => [asset.type, asset])
+      productAssets.map((asset) => [asset.type, asset]),
     );
 
     const businessesAssets = await this.loadBusinessesAssets();
     this.businessesAssets = new Map(
-      businessesAssets.map((asset) => [asset.type, asset])
+      businessesAssets.map((asset) => [asset.type, asset]),
     );
   }
 
@@ -37,7 +37,7 @@ export class AssetsLoaderService implements OnModuleInit {
   }
 
   private async loadProductsAssets(): Promise<ProductAsset[]> {
-    const assets = await this.loadFile<ProductAsset[]>("products.json");
+    const assets = await this.loadFile<ProductAsset[]>('products.json');
 
     this.logger.debug(`${assets.length} products assets loaded.`);
 
@@ -45,16 +45,16 @@ export class AssetsLoaderService implements OnModuleInit {
   }
 
   private async loadBusinessesAssets(): Promise<BusinessAsset[]> {
-    const files = await readdir(join(cwd(), "src/assets/businesses"));
+    const files = await readdir(join(cwd(), 'src/assets/businesses'));
     const assets = await Promise.allSettled(
-      files.map((file) => this.loadFile<BusinessAsset>(`/businesses/${file}`))
+      files.map((file) => this.loadFile<BusinessAsset>(`/businesses/${file}`)),
     );
 
     const loadedAssets = assets
-      .filter((result) => result.status === "fulfilled")
+      .filter((result) => result.status === 'fulfilled')
       .map((result: PromiseFulfilledResult<BusinessAsset>) => result.value);
     const errorAssets = assets
-      .filter((result) => result.status === "rejected")
+      .filter((result) => result.status === 'rejected')
       .map((result: PromiseRejectedResult) => result.reason);
 
     if (loadedAssets.length > 0) {
@@ -62,7 +62,7 @@ export class AssetsLoaderService implements OnModuleInit {
     }
     if (errorAssets.length > 0) {
       this.logger.error(
-        `${loadedAssets.length} businesses assets cause error when loading.`
+        `${loadedAssets.length} businesses assets cause error when loading.`,
       );
     }
 
@@ -70,7 +70,7 @@ export class AssetsLoaderService implements OnModuleInit {
   }
 
   private async loadFile<T>(assetPath: string): Promise<T> {
-    const contentBuffer = await readFile(join(cwd(), "src/assets/", assetPath));
+    const contentBuffer = await readFile(join(cwd(), 'src/assets/', assetPath));
     return JSON.parse(contentBuffer.toString());
   }
 }

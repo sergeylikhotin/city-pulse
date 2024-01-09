@@ -1,7 +1,7 @@
-import { Context } from "../infrastructure/grammy/grammy.context";
-import { Scene } from "grammy-scenes";
+import { Context } from '../infrastructure/grammy/grammy.context';
+import { Scene } from 'grammy-scenes';
 
-export const BANK_ACCOUNT_CREDIT_SCENE = "BANK_ACCOUNT_CREDIT_SCENE";
+export const BANK_ACCOUNT_CREDIT_SCENE = 'BANK_ACCOUNT_CREDIT_SCENE';
 
 export const BankAccountCreditSceneBuilder = () => {
   const scene = new Scene<Context>(BANK_ACCOUNT_CREDIT_SCENE);

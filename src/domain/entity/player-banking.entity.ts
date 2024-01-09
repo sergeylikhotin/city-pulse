@@ -1,32 +1,31 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../../infrastructure/prisma/prisma.service";
-import { PrismaClient } from "@prisma/client";
-import { Decimal } from "@prisma/client/runtime/library";
-import { BankingEntity } from "./banking.entity";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../infrastructure/prisma/prisma.service';
+import { PrismaClient } from '@prisma/client';
+import { Decimal } from '@prisma/client/runtime/library';
+import { BankingEntity } from './banking.entity';
 
 @Injectable()
 export class PlayerBankingEntity {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly bankingEntity: BankingEntity
-  ) {
-  }
+    private readonly bankingEntity: BankingEntity,
+  ) {}
 
   createBankAccount(playerId: string) {
     return this.prisma.playerBankAccount.create({
-      data: { playerId }
+      data: { playerId },
     });
   }
 
   getBankAccount(accountId: string) {
     return this.prisma.playerBankAccount.findUnique({
-      where: { id: accountId }
+      where: { id: accountId },
     });
   }
 
   getBankAccountByPlayerId(playerId: string) {
     return this.prisma.playerBankAccount.findUnique({
-      where: { playerId }
+      where: { playerId },
     });
   }
 
@@ -34,19 +33,19 @@ export class PlayerBankingEntity {
     return this.bankingEntity.deposit(
       playerAccountId,
       businessAccountId,
-      amount
+      amount,
     );
   }
 
   withdrawal(
     businessAccountId: string,
     playerAccountId: string,
-    amount: Decimal
+    amount: Decimal,
   ) {
     return this.bankingEntity.withdrawal(
       businessAccountId,
       playerAccountId,
-      amount
+      amount,
     );
   }
 
@@ -54,30 +53,30 @@ export class PlayerBankingEntity {
     return this.prisma.$transaction(async (transaction: PrismaClient) => {
       const fromBankAccount = await transaction.playerBankAccount.update({
         data: {
-          balance: { decrement: amount }
+          balance: { decrement: amount },
         },
-        where: { id: fromAccountId }
+        where: { id: fromAccountId },
       });
       if (fromBankAccount.balance.lessThan(0))
         throw new Error(
-          "На банковском счёту Вашей учетной записи недостаточно средств"
+          'На банковском счёту Вашей учетной записи недостаточно средств',
         );
 
       await transaction.playerBankAccount.update({
         data: {
-          balance: { increment: amount }
+          balance: { increment: amount },
         },
-        where: { id: toAccountId }
+        where: { id: toAccountId },
       });
 
       return transaction.playerBankAccountTransaction.create({
         data: {
-          type: "TRANSFER",
+          type: 'TRANSFER',
           amount,
 
           fromId: fromAccountId,
-          toId: toAccountId
-        }
+          toId: toAccountId,
+        },
       });
     });
   }

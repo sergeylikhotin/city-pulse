@@ -1,12 +1,12 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 
-import { AssetsLoaderService } from "../../../infrastructure/assets-loader/assets-loader.service";
+import { AssetsLoaderService } from '../../../infrastructure/assets-loader/assets-loader.service';
 
-import { BusinessEntity } from "../../entity/business.entity";
-import { BusinessBankingEntity } from "../../entity/business-banking.entity";
-import { ProductEntity } from "../../entity/product.entity";
+import { BusinessEntity } from '../../entity/business.entity';
+import { BusinessBankingEntity } from '../../entity/business-banking.entity';
+import { ProductEntity } from '../../entity/product.entity';
 
-import { PlayerBusiness } from "./types/player-business";
+import { PlayerBusiness } from './types/player-business';
 
 @Injectable()
 export class BusinessManagementService {
@@ -14,9 +14,8 @@ export class BusinessManagementService {
     private readonly businessEntity: BusinessEntity,
     private readonly productEntity: ProductEntity,
     private readonly businessBankingEntity: BusinessBankingEntity,
-    private readonly assetsLoaderService: AssetsLoaderService
-  ) {
-  }
+    private readonly assetsLoaderService: AssetsLoaderService,
+  ) {}
 
   async debugCreateBusiness(playerId: string, type: string) {
     const asset = this.assetsLoaderService.getBusinessAsset(type);
@@ -28,7 +27,7 @@ export class BusinessManagementService {
 
     await this.productEntity.createBusinessProducts(
       business.id,
-      asset.products
+      asset.products,
     );
     await this.businessBankingEntity.createBankAccount(business.id);
 
@@ -51,9 +50,9 @@ export class BusinessManagementService {
 
           return {
             ...product,
-            asset
+            asset,
           };
-        })
+        }),
       };
     });
   }

@@ -1,5 +1,9 @@
-import { MarketOffer, MarketOfferStatus, MarketOfferType } from "@prisma/client";
-import Decimal from "decimal.js";
+import {
+  MarketOffer,
+  MarketOfferStatus,
+  MarketOfferType,
+} from '@prisma/client';
+import Decimal from 'decimal.js';
 
 export class CreateMarketOfferDto implements Partial<MarketOffer> {
   productId: string;

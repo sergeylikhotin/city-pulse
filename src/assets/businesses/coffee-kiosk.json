@@ -8,35 +8,30 @@
         "type": "COFFEE_BEANS",
         "quantityPerTimeUnit": 0.25,
         "timeUnitType": "HOUR",
-
         "initialQuantity": 180
       },
       {
         "type": "WATER",
         "quantityPerTimeUnit": 1.5,
         "timeUnitType": "HOUR",
-
         "initialQuantity": 1080
       },
       {
         "type": "MILK",
         "quantityPerTimeUnit": 7,
         "timeUnitType": "HOUR",
-
         "initialQuantity": 5040
       },
       {
         "type": "SUGAR",
         "quantityPerTimeUnit": 0.3,
         "timeUnitType": "HOUR",
-
         "initialQuantity": 216
       },
       {
         "type": "PAPER_CUPS",
         "quantityPerTimeUnit": 30,
         "timeUnitType": "HOUR",
-
         "initialQuantity": 21600
       }
     ],
@@ -51,18 +46,54 @@
   "productivity": {
     "type": "GRAPH",
     "data": [
-      { "time": "06:00", "productivity": 0.0 },
-      { "time": "07:00", "productivity": 0.7 },
-      { "time": "08:00", "productivity": 1.0 },
-      { "time": "09:00", "productivity": 0.8 },
-      { "time": "10:00", "productivity": 0.5 },
-      { "time": "11:00", "productivity": 0.3 },
-      { "time": "13:00", "productivity": 0.4 },
-      { "time": "17:00", "productivity": 0.5 },
-      { "time": "18:00", "productivity": 0.4 },
-      { "time": "19:00", "productivity": 0.3 },
-      { "time": "20:00", "productivity": 0.2 },
-      { "time": "21:00", "productivity": 0.0 }
+      {
+        "time": "06:00",
+        "productivity": 0.0
+      },
+      {
+        "time": "07:00",
+        "productivity": 0.7
+      },
+      {
+        "time": "08:00",
+        "productivity": 1.0
+      },
+      {
+        "time": "09:00",
+        "productivity": 0.8
+      },
+      {
+        "time": "10:00",
+        "productivity": 0.5
+      },
+      {
+        "time": "11:00",
+        "productivity": 0.3
+      },
+      {
+        "time": "13:00",
+        "productivity": 0.4
+      },
+      {
+        "time": "17:00",
+        "productivity": 0.5
+      },
+      {
+        "time": "18:00",
+        "productivity": 0.4
+      },
+      {
+        "time": "19:00",
+        "productivity": 0.3
+      },
+      {
+        "time": "20:00",
+        "productivity": 0.2
+      },
+      {
+        "time": "21:00",
+        "productivity": 0.0
+      }
     ]
   },
   "financials": {

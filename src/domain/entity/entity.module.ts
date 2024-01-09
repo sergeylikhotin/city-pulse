@@ -1,18 +1,18 @@
-import { Module } from "@nestjs/common";
+import { Module } from '@nestjs/common';
 
-import { PlayerEntity } from "./player.entity";
-import { PlayerPlugin } from "./player.plugin";
+import { PlayerEntity } from './player.entity';
+import { PlayerPlugin } from './player.plugin';
 
-import { BankingEntity } from "./banking.entity";
-import { PlayerBankingEntity } from "./player-banking.entity";
-import { BusinessBankingEntity } from "./business-banking.entity";
+import { BankingEntity } from './banking.entity';
+import { PlayerBankingEntity } from './player-banking.entity';
+import { BusinessBankingEntity } from './business-banking.entity';
 
-import { BusinessEntity } from "./business.entity";
-import { ProductEntity } from "./product.entity";
-import { MarketEntity } from "./market.entity";
-import { ContractEntity } from "./contract.entity";
-import { ContractTermsEntity } from "./contract-terms.entity";
-import { ContractChatEntity } from "./contract-chat.entity";
+import { BusinessEntity } from './business.entity';
+import { ProductEntity } from './product.entity';
+import { MarketEntity } from './market.entity';
+import { ContractEntity } from './contract.entity';
+import { ContractTermsEntity } from './contract-terms.entity';
+import { ContractChatEntity } from './contract-chat.entity';
 
 @Module({
   providers: [
@@ -29,7 +29,7 @@ import { ContractChatEntity } from "./contract-chat.entity";
     MarketEntity,
     ContractEntity,
     ContractTermsEntity,
-    ContractChatEntity
+    ContractChatEntity,
   ],
   exports: [
     PlayerEntity,
@@ -45,8 +45,7 @@ import { ContractChatEntity } from "./contract-chat.entity";
     MarketEntity,
     ContractEntity,
     ContractTermsEntity,
-    ContractChatEntity
-  ]
+    ContractChatEntity,
+  ],
 })
-export class EntityModule {
-}
+export class EntityModule {}

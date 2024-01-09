@@ -1,7 +1,12 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../../../infrastructure/prisma/prisma.service";
-import { Prisma, Product, ProductProductionType, TimeUnitType } from "@prisma/client";
-import { chunk } from "lodash";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
+import {
+  Prisma,
+  Product,
+  ProductProductionType,
+  TimeUnitType,
+} from '@prisma/client';
+import { chunk } from 'lodash';
 
 type BusinessWithProducts = Prisma.BusinessGetPayload<{
   include: { products: true };
@@ -15,8 +20,7 @@ type RecalculatedProduct = {
 
 @Injectable()
 export class BusinessProductionService {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   async onModuleInit() {
     // await this.production();
@@ -26,54 +30,54 @@ export class BusinessProductionService {
   async production() {
     const currentDate = new Date();
     const businesses = await this.prisma.business.findMany({
-      include: { products: true }
+      include: { products: true },
     });
 
     const chunks = chunk(businesses, 250);
 
-    performance.mark("businesses production start");
+    performance.mark('businesses production start');
     for (let i = 0; i < chunks.length; i++) {
       const businessesChunk = chunks[i];
 
       const recalculatedProducts = this.recalculateBusinessesProducts(
         currentDate,
-        businessesChunk
+        businessesChunk,
       );
 
       await this.saveRecalculatedProducts(recalculatedProducts);
     }
-    performance.mark("businesses production end");
+    performance.mark('businesses production end');
 
     const measure = performance.measure(
-      "businesses production",
-      "businesses production start",
-      "businesses production end"
+      'businesses production',
+      'businesses production start',
+      'businesses production end',
     );
 
     console.dir(measure);
   }
 
   private async saveRecalculatedProducts(
-    recalculatedProducts: RecalculatedProduct[]
+    recalculatedProducts: RecalculatedProduct[],
   ) {
     await this.prisma.$transaction(
       recalculatedProducts.map(({ id, calculatedAt, quantityChange }) =>
         this.prisma.product.update({
           data: {
             quantity: {
-              increment: quantityChange
+              increment: quantityChange,
             },
-            calculatedAt: calculatedAt
+            calculatedAt: calculatedAt,
           },
-          where: { id }
-        })
-      )
+          where: { id },
+        }),
+      ),
     );
   }
 
   private recalculateBusinessesProducts(
     currentDate: Date,
-    businesses: BusinessWithProducts[]
+    businesses: BusinessWithProducts[],
   ): RecalculatedProduct[] {
     return businesses
       .filter(
@@ -81,16 +85,16 @@ export class BusinessProductionService {
           !business.products.some(
             (product) =>
               product.type === ProductProductionType.CONSUMABLE &&
-              product.quantity === 0
-          )
+              product.quantity === 0,
+          ),
       )
       .map((business) =>
         business.products.map((product) => ({
           id: product.id,
 
           calculatedAt: currentDate,
-          quantityChange: this.calculateQuantityChange(product, currentDate)
-        }))
+          quantityChange: this.calculateQuantityChange(product, currentDate),
+        })),
       )
       .flat();
   }
@@ -98,7 +102,7 @@ export class BusinessProductionService {
   private calculateTimeDifference(
     lastCalcTime: Date,
     targetTime: Date,
-    timeUnitType: TimeUnitType
+    timeUnitType: TimeUnitType,
   ): number {
     const elapsedTime = targetTime.getTime() - lastCalcTime.getTime();
 
@@ -126,13 +130,13 @@ export class BusinessProductionService {
     const elapsedTimeUnits = this.calculateTimeDifference(
       product.calculatedAt,
       currentData,
-      product.timeUnitType
+      product.timeUnitType,
     );
     const quantityChange = elapsedTimeUnits * product.quantityPerTimeUnit;
 
-    if (product.productionType === "PRODUCIBLE") {
+    if (product.productionType === 'PRODUCIBLE') {
       return quantityChange;
-    } else if (product.productionType === "CONSUMABLE") {
+    } else if (product.productionType === 'CONSUMABLE') {
       return -quantityChange;
     } else {
       throw new Error(`Unsupported production type: ${product.timeUnitType}`);

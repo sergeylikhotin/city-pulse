@@ -1,13 +1,12 @@
-import { Module } from "@nestjs/common";
+import { Module } from '@nestjs/common';
 
-import { PlayerManagementService } from "./player-management.service";
-import { RegistrationScene } from "../../../scenes/registration.scene";
+import { PlayerManagementService } from './player-management.service';
+import { RegistrationScene } from '../../../scenes/registration.scene';
 
-import { EntityModule } from "../../entity/entity.module";
+import { EntityModule } from '../../entity/entity.module';
 
 @Module({
   imports: [EntityModule],
-  providers: [PlayerManagementService, RegistrationScene]
+  providers: [PlayerManagementService, RegistrationScene],
 })
-export class PlayerManagementModule {
-}
+export class PlayerManagementModule {}

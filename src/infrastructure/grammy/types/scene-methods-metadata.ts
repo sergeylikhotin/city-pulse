@@ -1,4 +1,4 @@
-import { SceneMethodType } from "./scene-method-type";
+import { SceneMethodType } from './scene-method-type';
 
 export type SceneMethodsMetadata = {
   readonly type: SceneMethodType;

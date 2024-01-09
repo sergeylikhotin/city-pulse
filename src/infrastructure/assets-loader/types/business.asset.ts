@@ -1,5 +1,5 @@
-import { Decimal } from "decimal.js";
-import { TimeUnitType } from "@prisma/client";
+import { Decimal } from 'decimal.js';
+import { TimeUnitType } from '@prisma/client';
 
 export type BusinessAsset = {
   type: string;
@@ -25,17 +25,17 @@ export type BusinessAssetFinancials = {
 
 export type BusinessAssetProductivity =
   | {
-  type: BusinessAssetProductivityType.CONSTANT;
-  data: number;
-}
+      type: BusinessAssetProductivityType.CONSTANT;
+      data: number;
+    }
   | {
-  type: BusinessAssetProductivityType.GRAPH;
-  data: { time: string; productivity: number }[];
-};
+      type: BusinessAssetProductivityType.GRAPH;
+      data: { time: string; productivity: number }[];
+    };
 
 export enum BusinessAssetProductivityType {
-  CONSTANT = "CONSTANT",
-  GRAPH = "GRAPH",
+  CONSTANT = 'CONSTANT',
+  GRAPH = 'GRAPH',
 }
 
 export type BusinessProductAsset = {

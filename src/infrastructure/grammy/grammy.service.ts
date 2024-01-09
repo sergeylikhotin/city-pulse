@@ -1,26 +1,29 @@
-import { Inject, Injectable, Logger, OnModuleInit, Type } from "@nestjs/common";
-import { Bot, Composer, MiddlewareFn, session } from "grammy";
-import { GrammyModuleConfiguration, MODULE_OPTIONS_TOKEN } from "./grammy.module.definition";
-import { Api, Context } from "./grammy.context";
-import { hydrate, hydrateApi } from "@grammyjs/hydrate";
-import { run, RunOptions } from "@grammyjs/runner";
-import { Update } from "grammy/types";
-import { Scene, ScenesComposer } from "grammy-scenes";
-import { MetadataScanner, ModulesContainer, Reflector } from "@nestjs/core";
-import { SceneMethodsMetadata } from "./types/scene-methods-metadata";
-import { SceneComposerMethodMetadata } from "./types/scene-composer-method-metadata";
+import { Inject, Injectable, Logger, OnModuleInit, Type } from '@nestjs/common';
+import { Bot, Composer, MiddlewareFn, session } from 'grammy';
+import {
+  GrammyModuleConfiguration,
+  MODULE_OPTIONS_TOKEN,
+} from './grammy.module.definition';
+import { Api, Context } from './grammy.context';
+import { hydrate, hydrateApi } from '@grammyjs/hydrate';
+import { run, RunOptions } from '@grammyjs/runner';
+import { Update } from 'grammy/types';
+import { Scene, ScenesComposer } from 'grammy-scenes';
+import { MetadataScanner, ModulesContainer, Reflector } from '@nestjs/core';
+import { SceneMethodsMetadata } from './types/scene-methods-metadata';
+import { SceneComposerMethodMetadata } from './types/scene-composer-method-metadata';
 import {
   PLUGIN_METADATA,
   SCENE_COMPOSER_METHOD_METADATA,
   SCENE_METADATA,
-  SCENE_METHODS_METADATA
-} from "./grammy.constants";
-import { SceneMethodType } from "./types/scene-method-type";
-import { SceneComposerMethodType } from "./types/scene-composer-method-type";
-import { InstanceWrapper } from "@nestjs/core/injector/instance-wrapper";
-import { SceneMetadata } from "./types/scene-metadata";
-import { SceneFunction } from "./types/scene-function";
-import { GrammyUserError } from "./grammy.user-error";
+  SCENE_METHODS_METADATA,
+} from './grammy.constants';
+import { SceneMethodType } from './types/scene-method-type';
+import { SceneComposerMethodType } from './types/scene-composer-method-type';
+import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
+import { SceneMetadata } from './types/scene-metadata';
+import { SceneFunction } from './types/scene-function';
+import { GrammyUserError } from './grammy.user-error';
 
 @Injectable()
 export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
@@ -33,7 +36,7 @@ export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
     private readonly configuration: GrammyModuleConfiguration,
     private readonly modulesContainer: ModulesContainer,
     private readonly metadataScanner: MetadataScanner,
-    private readonly reflector: Reflector
+    private readonly reflector: Reflector,
   ) {
     super(configuration.botToken);
 
@@ -47,7 +50,7 @@ export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
       this.logger.error(botError.error, botError.stack);
 
       await botError.ctx.reply(
-        `Произошла ошибка... Мы уже получили сообщение об ошибке и работаем над этим.`
+        `Произошла ошибка... Мы уже получили сообщение об ошибке и работаем над этим.`,
       );
     });
   }
@@ -75,7 +78,7 @@ export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
 
   private usePluginsFromProviders() {
     this.getProvidersByFilter((provider) =>
-      this.isPluginProvider(provider)
+      this.isPluginProvider(provider),
     ).forEach((provider) => this.applyPlugin(provider));
   }
 
@@ -85,7 +88,7 @@ export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
 
   private composeScenesFromProviders() {
     this.getProvidersByFilter((provider) =>
-      this.isSceneProvider(provider)
+      this.isSceneProvider(provider),
     ).forEach((provider) => this.configureScene(provider));
 
     this.use(this.scenesComposer.manager());
@@ -95,19 +98,19 @@ export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
     const { instance, metatype } = provider;
     const sceneMetadata = this.reflector.get<SceneMetadata>(
       SCENE_METADATA,
-      metatype
+      metatype,
     );
 
     const scene = this.createSceneFromMetatype(sceneMetadata, metatype);
 
     if (this.debug) {
       scene
-        .label("SCENE_ENTER")
+        .label('SCENE_ENTER')
         .step(
           async (ctx) =>
             await ctx.reply(
-              `-----------------Enter ${scene.id}-----------------`
-            )
+              `-----------------Enter ${scene.id}-----------------`,
+            ),
         );
     }
 
@@ -115,12 +118,12 @@ export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
 
     if (this.debug) {
       scene
-        .label("SCENE_EXIT")
+        .label('SCENE_EXIT')
         .step(
           async (ctx) =>
             await ctx.reply(
-              `-----------------Exit ${scene.id}-----------------`
-            )
+              `-----------------Exit ${scene.id}-----------------`,
+            ),
         );
     }
 
@@ -129,7 +132,7 @@ export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
 
   private createSceneFromMetatype(
     sceneMetadata: SceneMetadata,
-    metatype: Type | Function
+    metatype: Type | Function,
   ) {
     const sceneName = sceneMetadata.name ?? metatype.name;
 
@@ -147,7 +150,7 @@ export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
   private configureSceneMethods(
     scene: Scene<Context>,
     instance: any,
-    methodName: string
+    methodName: string,
   ) {
     const func = instance[methodName];
     const middleware = func.bind(instance);
@@ -165,23 +168,23 @@ export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
   private applySceneMethods(
     scene: Scene<Context>,
     func: SceneFunction,
-    middleware: MiddlewareFn
+    middleware: MiddlewareFn,
   ) {
     const sceneMethodsMetadata = this.reflector.get<SceneMethodsMetadata>(
       SCENE_METHODS_METADATA,
-      func
+      func,
     );
     if (!sceneMethodsMetadata) return;
 
     const sceneComposers = sceneMethodsMetadata
       .reverse() // Reverse scenes methods because of decorators execution order is reversed
       .map(({ type, args }) =>
-        this.applySceneMethod(scene, type, args, middleware)
+        this.applySceneMethod(scene, type, args, middleware),
       )
       .filter((composer) => composer);
     if (sceneComposers.length > 1) {
       throw new Error(
-        `${func.name} must have only one decorator that return scene composer.`
+        `${func.name} must have only one decorator that return scene composer.`,
       );
     }
 
@@ -192,7 +195,7 @@ export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
     scene: Scene<Context>,
     type: SceneMethodType,
     args: Record<string, any>,
-    middleware: MiddlewareFn
+    middleware: MiddlewareFn,
   ) {
     switch (type) {
       case SceneMethodType.Always:
@@ -222,30 +225,30 @@ export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
   private applySceneComposerMethods(
     sceneComposer: Composer<Context>,
     func: SceneFunction,
-    middleware: MiddlewareFn
+    middleware: MiddlewareFn,
   ) {
     const sceneComposerMetadata =
       this.reflector.get<SceneComposerMethodMetadata>(
         SCENE_COMPOSER_METHOD_METADATA,
-        func
+        func,
       );
     if (!sceneComposerMetadata) return;
     if (!sceneComposer)
       throw new Error(
-        "You should use scene decorators that return a scene composer to utilize scene composer decorators."
+        'You should use scene decorators that return a scene composer to utilize scene composer decorators.',
       );
 
     this.applySceneComposerMethod(
       sceneComposer,
       sceneComposerMetadata,
-      middleware
+      middleware,
     );
   }
 
   private applySceneComposerMethod(
     sceneComposer: Composer<Context>,
     metadata: SceneComposerMethodMetadata,
-    middleware: MiddlewareFn
+    middleware: MiddlewareFn,
   ) {
     const { type, args } = metadata;
     switch (type) {
@@ -274,8 +277,8 @@ export class GrammyService extends Bot<Context, Api> implements OnModuleInit {
     filter: (
       provider: InstanceWrapper,
       index: number,
-      array: InstanceWrapper[]
-    ) => boolean
+      array: InstanceWrapper[],
+    ) => boolean,
   ) {
     return [...this.modulesContainer.values()]
       .flatMap((module) => [...module.providers.values()])

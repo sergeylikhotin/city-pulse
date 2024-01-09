@@ -1,10 +1,9 @@
-import { Global, Module } from "@nestjs/common";
-import { AssetsLoaderService } from "./assets-loader.service";
+import { Global, Module } from '@nestjs/common';
+import { AssetsLoaderService } from './assets-loader.service';
 
 @Global()
 @Module({
   providers: [AssetsLoaderService],
-  exports: [AssetsLoaderService]
+  exports: [AssetsLoaderService],
 })
-export class AssetsLoaderModule {
-}
+export class AssetsLoaderModule {}

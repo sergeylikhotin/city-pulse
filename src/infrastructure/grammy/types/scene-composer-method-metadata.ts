@@ -1,4 +1,4 @@
-import { SceneComposerMethodType } from "./scene-composer-method-type";
+import { SceneComposerMethodType } from './scene-composer-method-type';
 
 export type SceneComposerMethodMetadata = {
   readonly type: SceneComposerMethodType;

@@ -1,4 +1,4 @@
-import { Player } from "@prisma/client";
+import { Player } from '@prisma/client';
 
 export class CreatePlayerDto implements Partial<Player> {
   userId: number;

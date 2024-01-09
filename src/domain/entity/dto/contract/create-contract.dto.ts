@@ -1,4 +1,4 @@
-import { Contract, ContractStatus } from "@prisma/client";
+import { Contract, ContractStatus } from '@prisma/client';
 
 export class CreateContractDto implements Partial<Contract> {
   offerId: string;

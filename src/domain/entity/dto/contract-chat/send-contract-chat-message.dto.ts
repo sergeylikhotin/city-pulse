@@ -1,7 +1,8 @@
-import { ContractChatMessage } from "@prisma/client";
+import { ContractChatMessage } from '@prisma/client';
 
 export class SendContractChatMessageDto
-  implements Partial<ContractChatMessage> {
+  implements Partial<ContractChatMessage>
+{
   chatId: string;
   senderId: string;
 

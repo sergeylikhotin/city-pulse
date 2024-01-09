@@ -1,6 +1,6 @@
-import { Scene, Step } from "../infrastructure/grammy/decorators";
-import { SceneContext } from "../infrastructure/grammy/grammy.context";
-import { WelcomeScene } from "./welcome.scene";
+import { Scene, Step } from '../infrastructure/grammy/decorators';
+import { SceneContext } from '../infrastructure/grammy/grammy.context';
+import { WelcomeScene } from './welcome.scene';
 
 @Scene()
 export class MainScene {

@@ -1,18 +1,18 @@
-import { Context } from "./grammy.context";
-import { Call, Label, Scene, Step } from "./decorators";
-import { SceneFlavoredContext, ScenesSessionData } from "grammy-scenes";
-import { RegistrationScene } from "../../scenes/registration.scene";
+import { Context } from './grammy.context';
+import { Call, Label, Scene, Step } from './decorators';
+import { SceneFlavoredContext, ScenesSessionData } from 'grammy-scenes';
+import { RegistrationScene } from '../../scenes/registration.scene';
 
 @Scene()
 export class GrammyTestScene {
   @Step()
   async hello(ctx: SceneFlavoredContext<Context, ScenesSessionData>) {
-    await ctx.reply("Привет! Это сцена собрана целиком из декораторов!");
+    await ctx.reply('Привет! Это сцена собрана целиком из декораторов!');
   }
 
   @Step()
   async registrationChecking(
-    ctx: SceneFlavoredContext<Context, ScenesSessionData>
+    ctx: SceneFlavoredContext<Context, ScenesSessionData>,
   ) {
     await ctx.reply(`И так, проверим зарегистрирован ли ты...`);
 
@@ -22,20 +22,18 @@ export class GrammyTestScene {
       return ctx.scene.exit();
     } else {
       await ctx.reply(
-        "О нет, мы тебя еще не зарегистрировали, подожди пока я реализую сцену регистрации"
+        'О нет, мы тебя еще не зарегистрировали, подожди пока я реализую сцену регистрации',
       );
     }
 
     ctx.scene.resume();
   }
 
-  @Label("REGISTRATION")
+  @Label('REGISTRATION')
   @Call(RegistrationScene.name)
-  registration() {
-  }
+  registration() {}
 
-  @Label("EXIT")
+  @Label('EXIT')
   @Step()
-  exit() {
-  }
+  exit() {}
 }

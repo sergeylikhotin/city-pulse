@@ -1,4 +1,4 @@
-import { ContractChat, ContractChatStatus } from "@prisma/client";
+import { ContractChat, ContractChatStatus } from '@prisma/client';
 
 export class UpdateContractChatDto implements Partial<ContractChat> {
   id: string;

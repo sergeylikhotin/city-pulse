@@ -1,4 +1,4 @@
-import { DeliveryFrequency } from "@prisma/client";
+import { DeliveryFrequency } from '@prisma/client';
 
 export class RespondMarketOfferDto {
   offerId: string;

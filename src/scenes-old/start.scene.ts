@@ -1,7 +1,7 @@
-import { Context } from "../infrastructure/grammy/grammy.context";
-import { Scene } from "grammy-scenes";
+import { Context } from '../infrastructure/grammy/grammy.context';
+import { Scene } from 'grammy-scenes';
 
-export const START_SCENE = "START_SCENE";
+export const START_SCENE = 'START_SCENE';
 
 export const StartSceneBuilder = () => {
   const scene = new Scene<Context>(START_SCENE);

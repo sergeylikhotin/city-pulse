@@ -1,24 +1,23 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 
-import { BusinessProductAsset } from "../../infrastructure/assets-loader/types/business.asset";
-import { PrismaService } from "../../infrastructure/prisma/prisma.service";
-import { ProductProductionType } from "@prisma/client";
+import { BusinessProductAsset } from '../../infrastructure/assets-loader/types/business.asset';
+import { PrismaService } from '../../infrastructure/prisma/prisma.service';
+import { ProductProductionType } from '@prisma/client';
 
 @Injectable()
 export class ProductEntity {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   createBusinessProducts(
     businessId: string,
     products: {
       consumable: BusinessProductAsset[];
       producible: BusinessProductAsset[];
-    }
+    },
   ) {
     const createProductInputFromAsset = (
       asset: BusinessProductAsset,
-      productionType: ProductProductionType
+      productionType: ProductProductionType,
     ) => ({
       businessId,
 
@@ -29,18 +28,18 @@ export class ProductEntity {
       quantityPerTimeUnit: asset.quantityPerTimeUnit,
       timeUnitType: asset.timeUnitType,
 
-      productionType
+      productionType,
     });
 
     const consumable = products.consumable.map((asset) =>
-      createProductInputFromAsset(asset, ProductProductionType.CONSUMABLE)
+      createProductInputFromAsset(asset, ProductProductionType.CONSUMABLE),
     );
     const producible = products.producible.map((asset) =>
-      createProductInputFromAsset(asset, ProductProductionType.PRODUCIBLE)
+      createProductInputFromAsset(asset, ProductProductionType.PRODUCIBLE),
     );
 
     return this.prisma.product.createMany({
-      data: [...consumable, ...producible]
+      data: [...consumable, ...producible],
     });
   }
 }

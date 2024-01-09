@@ -1,9 +1,9 @@
-import { Player } from "@prisma/client";
-import { MiddlewareFn } from "grammy";
-import { PlayerEntity } from "./player.entity";
-import { PluginHost } from "../../infrastructure/grammy/interfaces/plugin-host";
-import { Plugin } from "../../infrastructure/grammy/decorators";
-import { Context } from "../../infrastructure/grammy/grammy.context";
+import { Player } from '@prisma/client';
+import { MiddlewareFn } from 'grammy';
+import { PlayerEntity } from './player.entity';
+import { PluginHost } from '../../infrastructure/grammy/interfaces/plugin-host';
+import { Plugin } from '../../infrastructure/grammy/decorators';
+import { Context } from '../../infrastructure/grammy/grammy.context';
 
 export interface PlayerFlavor {
   player: Player;
@@ -11,8 +11,7 @@ export interface PlayerFlavor {
 
 @Plugin()
 export class PlayerPlugin implements PluginHost<Context & PlayerFlavor> {
-  constructor(private readonly playerService: PlayerEntity) {
-  }
+  constructor(private readonly playerService: PlayerEntity) {}
 
   middleware(): MiddlewareFn<Context & PlayerFlavor> {
     return async (ctx, next) => {
