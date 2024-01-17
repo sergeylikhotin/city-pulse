@@ -7,9 +7,9 @@ import {
 } from '../infrastructure/grammy/decorators';
 import { SceneFlavoredContext } from 'grammy-scenes';
 import { Context } from '../infrastructure/grammy/grammy.context';
-import { RegisterPlayerDto } from '../domain/managment/player-management/dto/register-player.dto';
+import { RegisterPlayerDto } from '../domain/management/player-management/dto/register-player.dto';
 import { Filter } from 'grammy';
-import { PlayerManagementService } from '../domain/managment/player-management/player-management.service';
+import { PlayerManagementService } from '../domain/management/player-management/player-management.service';
 import { Player } from '@prisma/client';
 
 @Scene()

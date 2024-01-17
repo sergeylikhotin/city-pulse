@@ -29,6 +29,17 @@ export class PlayerBankingEntity {
     });
   }
 
+  getBankAccountTransactions(accountId: string) {
+    return this.prisma.playerBankAccountTransaction.findMany({
+      where: {
+        OR: [{ fromId: accountId }, { toId: accountId }],
+      },
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
+  }
+
   deposit(playerAccountId: string, businessAccountId: string, amount: Decimal) {
     return this.bankingEntity.deposit(
       playerAccountId,
@@ -57,10 +68,12 @@ export class PlayerBankingEntity {
         },
         where: { id: fromAccountId },
       });
-      if (fromBankAccount.balance.lessThan(0))
+
+      if (fromBankAccount.balance.lessThan(0)) {
         throw new Error(
           'На банковском счёту Вашей учетной записи недостаточно средств',
         );
+      }
 
       await transaction.playerBankAccount.update({
         data: {

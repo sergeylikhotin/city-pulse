@@ -1,14 +1,16 @@
 import { Global, Module } from '@nestjs/common';
 import { GrammyService } from './grammy.service';
-import { ConfigurableModuleClass } from './grammy.module.definition';
 import { DiscoveryModule } from '@nestjs/core';
-import { GrammyTestScene } from './grammy.test.scene';
+
 import { ReplyLoadingPlugin } from './plugings/reply-loading.plugin';
+import { ReplyMenuPlugin } from './plugings/reply-menu.plugin';
+
+import { ConfigurableModuleClass } from './grammy.module.definition';
 
 @Global()
 @Module({
   imports: [DiscoveryModule],
-  providers: [GrammyService, ReplyLoadingPlugin, GrammyTestScene],
+  providers: [GrammyService, ReplyLoadingPlugin, ReplyMenuPlugin],
   exports: [GrammyService],
 })
 export class GrammyModule extends ConfigurableModuleClass {}

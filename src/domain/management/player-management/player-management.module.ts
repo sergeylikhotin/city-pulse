@@ -7,6 +7,7 @@ import { EntityModule } from '../../entity/entity.module';
 
 @Module({
   imports: [EntityModule],
-  providers: [PlayerManagementService, RegistrationScene],
+  providers: [PlayerManagementService],
+  exports: [PlayerManagementService],
 })
 export class PlayerManagementModule {}

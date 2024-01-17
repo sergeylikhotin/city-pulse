@@ -17,7 +17,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
       useFactory: async (config: ConfigService) => ({
         botToken: config.getOrThrow('BOT_TOKEN'),
         scenes: {
-          debug: true,
+          debug: false,
         },
       }),
       inject: [ConfigService],

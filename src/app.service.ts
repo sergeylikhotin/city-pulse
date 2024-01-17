@@ -2,9 +2,9 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { GrammyService } from './infrastructure/grammy/grammy.service';
 
 import { PrismaService } from './infrastructure/prisma/prisma.service';
-import { DebugCreateBusinessScene } from './domain/managment/business-management/scenes/debug-create-business.scene';
-import { PlayerBusinessesScene } from './domain/managment/business-management/scenes/player-businesses.scene';
 import { MainScene } from './scenes/main.scene';
+import { DebugCreateBusinessScene } from "./scenes/debug-create-business.scene";
+import { PlayerBusinessesScene } from "./scenes/player-businesses.scene";
 
 @Injectable()
 export class AppService implements OnModuleInit {

@@ -7,6 +7,8 @@ import { BusinessBankingEntity } from '../../entity/business-banking.entity';
 import { ProductEntity } from '../../entity/product.entity';
 
 import { PlayerBusiness } from './types/player-business';
+import { GrammyUserError } from '@grammy/grammy.user-error';
+import { Business, BusinessBankAccount, Product } from '@prisma/client';
 
 @Injectable()
 export class BusinessManagementService {
@@ -23,7 +25,11 @@ export class BusinessManagementService {
       throw new Error(`No ${type} business asset found.`);
     }
 
-    const business = await this.businessEntity.createBusiness(playerId, type);
+    const business = await this.businessEntity.createBusiness({
+      ownerId: playerId,
+      type,
+      name: '',
+    });
 
     await this.productEntity.createBusinessProducts(
       business.id,
@@ -34,26 +40,38 @@ export class BusinessManagementService {
     return business;
   }
 
+  private businessToPlayerBusiness = (
+    business: Business & { products: Product[]; account: BusinessBankAccount },
+  ): PlayerBusiness => ({
+    ...business,
+    asset: this.assetsLoaderService.getBusinessAsset(business.type),
+
+    products: business.products.map((product) => ({
+      ...product,
+      asset: this.assetsLoaderService.getProductAsset(product.type),
+    })),
+  });
+
+  async getPlayerBusiness(
+    playerId: string,
+    businessId: string,
+  ): Promise<PlayerBusiness> {
+    const business = await this.businessEntity.getBusiness(businessId);
+    if (business.ownerId !== playerId) {
+      throw new GrammyUserError(
+        'Вы не можете получить данные о бизнесе который Вам не принадлежит. Информация была передана администратору.',
+      );
+    }
+
+    return this.businessToPlayerBusiness(business);
+  }
+
   async getPlayerBusinesses(playerId: string): Promise<PlayerBusiness[]> {
     const businesses =
       await this.businessEntity.getBusinessesByPlayer(playerId);
 
-    return businesses.map((business) => {
-      const asset = this.assetsLoaderService.getBusinessAsset(business.type);
-
-      return {
-        ...business,
-        asset,
-
-        products: business.products.map((product) => {
-          const asset = this.assetsLoaderService.getProductAsset(product.type);
-
-          return {
-            ...product,
-            asset,
-          };
-        }),
-      };
-    });
+    return businesses.map((business) =>
+      this.businessToPlayerBusiness(business),
+    );
   }
 }

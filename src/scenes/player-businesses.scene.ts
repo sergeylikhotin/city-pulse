@@ -1,8 +1,10 @@
-import { Scene, Step } from '../../../../infrastructure/grammy/decorators';
 import { SceneFlavoredContext } from 'grammy-scenes';
-import { Context } from '../../../../infrastructure/grammy/grammy.context';
-import { BusinessManagementService } from '../business-management.service';
 import * as _ from 'lodash';
+
+import { Scene, Step } from '../infrastructure/grammy/decorators';
+import { Context } from '../infrastructure/grammy/grammy.context';
+
+import { BusinessManagementService } from '../domain/management/business-management/business-management.service';
 
 @Scene()
 export class PlayerBusinessesScene {

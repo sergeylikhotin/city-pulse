@@ -85,10 +85,12 @@ export class BankingEntity {
           },
         },
       });
-      if (fromBankAccount.balance.lessThan(0))
+
+      if (fromBankAccount.balance.lessThan(0)) {
         throw new Error(
           'На банковском счёту Вашего бизнеса недостаточно средств',
         );
+      }
 
       await transaction.playerBankAccount.update({
         data: {

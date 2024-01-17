@@ -11,11 +11,11 @@ export interface PlayerFlavor {
 
 @Plugin()
 export class PlayerPlugin implements PluginHost<Context & PlayerFlavor> {
-  constructor(private readonly playerService: PlayerEntity) {}
+  constructor(private readonly playerEntity: PlayerEntity) {}
 
   middleware(): MiddlewareFn<Context & PlayerFlavor> {
     return async (ctx, next) => {
-      ctx.player = await this.playerService.getPlayerByUserId(ctx.from.id);
+      ctx.player = await this.playerEntity.getPlayerByUserId(ctx.from.id);
 
       await next();
     };

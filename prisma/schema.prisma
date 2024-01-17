@@ -96,6 +96,7 @@ model Business {
   owner   Player @relation(fields: [ownerId], references: [id], onDelete: NoAction)
 
   type String
+  name String
 
   account      BusinessBankAccount?
   products     Product[]
